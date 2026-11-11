@@ -1,4 +1,4 @@
-# Aria - AI Customer Support Agent
+# Edith - AI Customer Support Agent
 
 Answers customer questions from real help-center articles (RAG), remembers the chat,
 uses tools (subscription lookup, ticket creation), returns structured replies,
