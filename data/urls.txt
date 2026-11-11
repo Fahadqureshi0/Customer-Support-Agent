@@ -1,0 +1,10 @@
+# Real help-center articles. One URL per line. Add more (billing, account, privacy...).
+https://support.claude.com/en/articles/8325606
+https://support.claude.com/en/articles/11647753-understanding-usage-and-length-limits
+https://support.claude.com/en/articles/8324991-about-claude-s-pro-plan-usage
+https://support.claude.com/en/articles/11145838
+https://support.claude.com/en/articles/9797557-usage-limit-best-practices
+https://support.claude.com/en/articles/11049741-what-is-the-max-plan
+https://support.claude.com/en/articles/8325609-how-do-i-sign-up-for-the-pro-plan
+https://support.claude.com/en/articles/8461763-where-can-i-access-claude
+https://support.claude.com/en/articles/8114521-how-can-i-access-the-claude-api

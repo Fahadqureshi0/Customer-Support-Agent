@@ -1,0 +1,6 @@
+[
+  {"email": "ali@example.com", "name": "Ali Khan", "plan": "Pro", "status": "active", "renewal_date": "2026-12-01"},
+  {"email": "sara@example.com", "name": "Sara Ahmed", "plan": "Max", "status": "active", "renewal_date": "2026-11-20"},
+  {"email": "john@example.com", "name": "John Smith", "plan": "Free", "status": "active", "renewal_date": "none"},
+  {"email": "mona@example.com", "name": "Mona Ali", "plan": "Pro", "status": "payment_failed", "renewal_date": "2026-11-15"}
+]
