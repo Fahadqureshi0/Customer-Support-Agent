@@ -1,7 +1,9 @@
+# Concept: tools - normal Python functions the LLM can decide to call
 import json
 import uuid
 from pathlib import Path
 
+from ddgs import DDGS
 from langchain_core.tools import tool
 from app.vectorstore import get_vectorstore
 
@@ -19,6 +21,21 @@ def search_knowledge_base(question: str) -> str:
     for d in docs:
         source = d.metadata.get("source", "unknown")
         parts.append(f"SOURCE: {source}\n{d.page_content}")
+    return "\n\n---\n\n".join(parts)
+
+
+@tool
+def search_web(query: str) -> str:
+    """Search the internet. Use only when the help center articles do not answer the question, or for general or recent information. Never put personal data (emails, names, ticket ids) in the query."""
+    try:
+        results = DDGS(timeout=10).text(query, max_results=4)
+    except Exception:
+        return "Web search is unavailable right now."
+    if not results:
+        return "No web results found."
+    parts = []
+    for r in results:
+        parts.append(f"SOURCE: {r['href']}\n{r['title']}\n{r['body']}")
     return "\n\n---\n\n".join(parts)
 
 
@@ -43,4 +60,4 @@ def create_ticket(email: str, issue: str) -> str:
     return f"Ticket {ticket_id} created. A human agent will contact the customer."
 
 
-tools = [search_knowledge_base, check_subscription, create_ticket]
+tools = [search_knowledge_base, search_web, check_subscription, create_ticket]
