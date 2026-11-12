@@ -11,11 +11,6 @@ export default function Welcome() {
         Edith answers from real Claude help-center articles and links the ones she used. If she
         can't help, she hands you to a human.
       </motion.p>
-
-      <p className="demo-note">
-        Demo accounts you can look up: ali@example.com, sara@example.com, john@example.com,
-        mona@example.com
-      </p>
     </motion.div>
   );
 }
