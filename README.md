@@ -5,14 +5,45 @@
 ![LangChain](https://img.shields.io/badge/LangChain-1C3C3C)
 ![Groq](https://img.shields.io/badge/LLM-Groq-F55036)
 ![React](https://img.shields.io/badge/React-Vite-61DAFB?logo=react&logoColor=black)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-000000?logo=vercel&logoColor=white)](https://customer-support-agent-7pca.vercel.app/)
 
 Edith is a customer support agent that answers questions from real help-center articles, remembers the conversation, looks up customer accounts, opens support tickets, and hands the conversation to a human when it cannot help.
 
 It is a full-stack project: a Python backend (FastAPI, LangChain, Groq, ChromaDB) and a React frontend with animated chat, source links, and light/dark themes.
 
+## Live Demo
+
+**Try it here: [customer-support-agent-7pca.vercel.app](https://customer-support-agent-7pca.vercel.app/)**
+
+| Part | Hosted on |
+|---|---|
+| Frontend (React + Vite) | Vercel |
+| Backend (FastAPI + LangChain + ChromaDB) | Render |
+
+> **Note:** The backend runs on a free Render instance that sleeps when idle. The first message after a quiet period can take up to a minute while the server wakes up. After that, replies are fast.
+
+To explore the account and escalation features, try these fictional demo accounts: `ali@example.com` (Pro), `sara@example.com` (Max), `john@example.com` (Free), `mona@example.com` (Pro, payment failed). See [Try it](#try-it) for sample messages.
 
 <!-- Add a screenshot: save it as docs/screenshot.png, then uncomment the next line -->
 <!-- ![Edith chat interface](docs/screenshot.png) -->
+
+## Table of Contents
+
+- [Features](#features)
+- [Architecture](#architecture)
+- [Tech stack](#tech-stack)
+- [Project structure](#project-structure)
+- [Getting started](#getting-started)
+- [Configuration](#configuration)
+- [Knowledge base](#knowledge-base)
+- [API reference](#api-reference)
+- [Try it](#try-it)
+- [Deployment](#deployment)
+- [How the code maps to the concepts](#how-the-code-maps-to-the-concepts)
+- [Known limitations](#known-limitations)
+- [Roadmap](#roadmap)
+- [Author](#author)
+- [License](#license)
 
 ## Features
 
@@ -60,6 +91,7 @@ flowchart LR
 | Validation and settings | Pydantic, pydantic-settings |
 | API | FastAPI, Uvicorn |
 | Frontend | React, Vite, motion |
+| Hosting | Render (backend), Vercel (frontend) |
 
 ## Project structure
 
@@ -214,6 +246,8 @@ Returns `{ "status": "ok", "agent": "Edith" }`. Useful for uptime checks and for
 
 ## Try it
 
+You can run these on the [live demo](https://customer-support-agent-7pca.vercel.app/) or locally.
+
 | Message | What it demonstrates |
 |---|---|
 | "What are the usage limits on the Pro plan?" | RAG with source links |
@@ -225,6 +259,8 @@ Demo accounts (fictional): `ali@example.com` (Pro), `sara@example.com` (Max), `j
 
 ## Deployment
 
+The live demo uses the setup below: the backend on Render and the frontend on Vercel.
+
 ### Backend on Render
 
 Create a **Web Service** from the repository with the Root Directory left empty:
@@ -233,7 +269,7 @@ Create a **Web Service** from the repository with the Root Directory left empty:
 |---|---|
 | Build Command | `pip install -r requirements.txt && python -m app.ingest` |
 | Start Command | `uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
-| Environment | `GROQ_API_KEY`, `AGENT_NAME=Edith` |
+| Environment | `GROQ_API_KEY`, `AGENT_NAME=Edith`, `PYTHON_VERSION=3.12.7` |
 
 Set `GROQ_API_KEY` before the first build, because ingestion loads the settings. Free instances sleep when idle, so the first request after a pause can take up to a minute.
 
@@ -275,9 +311,10 @@ docker run --env-file .env -p 8000:8000 -v "$(pwd)/chroma_db:/code/chroma_db" ed
 
 - Conversation memory lives in server RAM, so it resets on restart and does not scale across multiple instances.
 - `check_subscription` trusts the email address it is given. A real system needs authentication before showing account data.
-- Customer and ticket data are local JSON files, not a real database or helpdesk.
+- Customer and ticket data are local JSON files, not a real database or helpdesk. On free hosting, tickets are lost when the server redeploys.
 - Answers are only as current as the last ingestion run.
 - There is no automated evaluation set yet, so answer quality is checked by hand.
+- The free-tier backend sleeps when idle, so the first request can be slow.
 
 ## Roadmap
 
