@@ -1,8 +1,9 @@
 {
   "installCommand": "rm -rf node_modules && npm install",
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/chat", "destination": "https://YOUR-SERVICE.onrender.com/chat" }
+    {
+      "source": "/chat",
+      "destination": "https://customer-support-agent-use0.onrender.com/chat"
+    }
   ]
 }
