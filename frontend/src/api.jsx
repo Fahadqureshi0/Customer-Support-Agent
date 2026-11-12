@@ -6,10 +6,18 @@ export async function sendMessage(sessionId, message) {
     body: JSON.stringify({ session_id: sessionId, message: message }),
   });
 
-  const data = await res.json();
+  // read as text first, because the body can be empty
+  const raw = await res.text();
+  let data = null;
+  try {
+    data = raw ? JSON.parse(raw) : null;
+  } catch {
+    data = null;
+  }
 
-  if (!res.ok) {
-    throw new Error(typeof data.detail === "string" ? data.detail : JSON.stringify(data.detail));
+  if (!res.ok || !data) {
+    const detail = data && data.detail ? JSON.stringify(data.detail) : "empty response";
+    throw new Error("Server answered " + res.status + " (" + detail + ")");
   }
   return data;
 }
