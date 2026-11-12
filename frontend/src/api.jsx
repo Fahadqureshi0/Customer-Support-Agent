@@ -6,18 +6,18 @@ export async function sendMessage(sessionId, message) {
     body: JSON.stringify({ session_id: sessionId, message: message }),
   });
 
-  // read as text first, because the body can be empty
   const raw = await res.text();
   let data = null;
   try {
-    data = raw ? JSON.parse(raw) : null;
+    data = JSON.parse(raw);
   } catch {
     data = null;
   }
 
   if (!res.ok || !data) {
-    const detail = data && data.detail ? JSON.stringify(data.detail) : "empty response";
-    throw new Error("Server answered " + res.status + " (" + detail + ")");
+    const type = res.headers.get("content-type") || "no content-type";
+    const start = raw.slice(0, 120).replace(/\s+/g, " ");
+    throw new Error("Status " + res.status + ", " + type + ", body starts: " + (start || "(empty)"));
   }
   return data;
 }
